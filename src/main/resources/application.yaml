@@ -3,6 +3,4 @@ ktor:
     port: 8080
   application:
     modules:
-      - com.example.myaiadventure.HttpKt.configureHttp
-      - com.example.myaiadventure.SerializationKt.configureSerialization
-      - com.example.myaiadventure.RoutingKt.configureRouting
+      - com.example.myaiadventure.ApplicationKt.start
