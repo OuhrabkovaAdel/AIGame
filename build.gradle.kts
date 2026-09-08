@@ -20,6 +20,7 @@ dependencies {
     implementation(ktorLibs.server.contentNegotiation)
     implementation(ktorLibs.server.core)
     implementation(ktorLibs.server.cors)
+    implementation(ktorLibs.server.statusPages)
     implementation(ktorLibs.server.netty)
     implementation(libs.logback.classic)
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.5.2")

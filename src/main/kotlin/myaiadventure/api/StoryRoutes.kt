@@ -1,5 +1,6 @@
 package myaiadventure.api
 
+import com.example.myaiadventure.api.CreateStoryRequest
 import com.example.myaiadventure.api.PlayerAction
 import myaiadventure.service.StoryService
 import io.ktor.http.HttpStatusCode
@@ -11,16 +12,22 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class CreateStoryRequest(
-    val title: String
-)
-
 fun Route.storyRoutes(
     storyService: StoryService
 ) { route("/api/stories") {
 
-        get("/{storyId}") {
+        post {
+        val request = call.receive<CreateStoryRequest>()
+
+        val response = storyService.createStory(request)
+
+        call.respond(
+        HttpStatusCode.Created,
+            response
+        )
+}
+
+      /*  get("/{storyId}") {
             val storyId = call.parameters["storyId"]?:return@get call.respond(HttpStatusCode.BadRequest, "storyId is required")
 
             val story = storyService.getStory(storyId)
@@ -34,16 +41,6 @@ fun Route.storyRoutes(
             call.respond(story)
         }
 
-        post {
-            val request = call.receive<CreateStoryRequest>()
-
-            val story = storyService.createStory(request.title)
-
-            call.respond(
-                HttpStatusCode.Created,
-                story
-            )
-        }
         post("/{storyId}/actions") {
 
             val storyId = call.parameters["storyId"]
@@ -59,7 +56,7 @@ fun Route.storyRoutes(
                 action = request.action
             )
             call.respond(turn)
-        }
+        }*/
     }
 
 }

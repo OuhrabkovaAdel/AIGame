@@ -3,7 +3,12 @@ POST http://localhost:8080/api/stories
 Content-Type: application/json
 
 {
-  "title": "The Dark Forest"
+  "title": "The Dark Forest",
+  "genres": ["FANTASY", "ADVENTURE"],
+  "tags": ["forest", "magic"],
+  "maturityLevel": "TEEN",
+  "writingStyles": ["DARK", "DRAMATIC"],
+  "generalSetting": "A mysterious forest filled with ancient magic."
 }
 
 ### Player action 1
