@@ -1,10 +1,14 @@
 package myaiadventure.service
 
+import com.example.myaiadventure.api.AiStoryRequest
 import com.example.myaiadventure.domain.StoryState
 import com.example.myaiadventure.domain.StoryTurn
+import com.example.myaiadventure.service.AiService
 import myaiadventure.domain.Story
 
-class StoryService {
+class StoryService(
+    private val aiService: AiService
+) {
 
     private val stories = mutableMapOf<String, StoryState>()
 
@@ -25,10 +29,18 @@ class StoryService {
 
         val state = stories[storyId]?: throw IllegalArgumentException("Story $storyId not found")
 
+        val AITextResponce = aiService.generateStory(
+            AiStoryRequest(
+                storyText = state.story.text,
+                history = state.turns.map { it.text },
+                action = action
+            )
+        )
+
         val turn = StoryTurn(
             storyId = storyId,
             action = action,
-            text = "Uděláš: \"$action\". Les kolem tebe na chvíli ztichne."
+            text = AITextResponce
         )
 
         stories[storyId] = state.copy(
