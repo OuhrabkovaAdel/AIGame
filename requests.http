@@ -1,0 +1,26 @@
+### Make a story
+POST http://localhost:8080/api/stories
+Content-Type: application/json
+
+{
+  "title": "The Dark Forest"
+}
+
+### Player action 1
+POST http://localhost:8080/api/stories/story-1/actions
+Content-Type: application/json
+
+{
+  "action": "Vejdu do lesa."
+}
+
+### Player action 1
+POST http://localhost:8080/api/stories/story-1/actions
+Content-Type: application/json
+
+{
+  "action": "Rozhlédnu se kolem sebe."
+}
+
+### Player action history
+GET http://localhost:8080/api/stories/story-1
