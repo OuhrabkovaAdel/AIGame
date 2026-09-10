@@ -3,7 +3,6 @@ package com.example.myaiadventure.api
 import com.example.myaiadventure.enums.Genre
 import com.example.myaiadventure.enums.MaturityLevel
 import com.example.myaiadventure.enums.WritingStyle
-import com.example.myaiadventure.exeptions.InvalidStoryRequestException
 import kotlinx.serialization.Serializable
 
 @Serializable
