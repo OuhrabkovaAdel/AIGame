@@ -1,3 +1,9 @@
-package com.example.myaiadventure.exeptions
+package com.example.myaiadventure.exceptions
 
-class ApplicationException(message: String) : Exception(message)
+import com.example.myaiadventure.enums.ErrorCodes
+import io.ktor.http.*
+
+class ApplicationException(
+    message: String,
+    val errorCode: ErrorCodes
+) : Exception(message)

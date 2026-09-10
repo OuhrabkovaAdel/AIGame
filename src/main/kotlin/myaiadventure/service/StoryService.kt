@@ -4,7 +4,8 @@ import com.example.myaiadventure.api.CreateStoryRequest
 import com.example.myaiadventure.api.CreateStoryResponse
 import com.example.myaiadventure.domain.StoryState
 import com.example.myaiadventure.domain.WorldState
-import com.example.myaiadventure.exeptions.ApplicationException
+import com.example.myaiadventure.enums.ErrorCodes
+import com.example.myaiadventure.exceptions.ApplicationException
 import com.example.myaiadventure.service.AiService
 import myaiadventure.domain.Story
 import java.util.UUID
@@ -42,19 +43,19 @@ class StoryService(
 
     private fun validateCreateStoryRequest(createStoryRequest: CreateStoryRequest) {
         if (createStoryRequest.genres.isEmpty()) {
-            throw ApplicationException("Genres list cannot be empty")
+            throw ApplicationException("Genres list cannot be empty", ErrorCodes.INVALID_REQUEST)
         }
         if (createStoryRequest.genres.size > 3) {
-            throw ApplicationException("Genres list cannot exceed 3 items")
+            throw ApplicationException("Genres list cannot exceed 3 items", ErrorCodes.INVALID_REQUEST)
         }
         if (createStoryRequest.writingStyles.size > 3) {
-            throw ApplicationException("Writing styles list cannot exceed 3 items")
+            throw ApplicationException("Writing styles list cannot exceed 3 items", ErrorCodes.INVALID_REQUEST)
         }
         if (createStoryRequest.title.isBlank()) {
-            throw ApplicationException("Title cannot be empty")
+            throw ApplicationException("Title cannot be empty", ErrorCodes.INVALID_REQUEST)
         }
         if (createStoryRequest.generalSetting.isBlank()) {
-            throw ApplicationException("General setting cannot be empty")
+            throw ApplicationException("General setting cannot be empty", ErrorCodes.INVALID_REQUEST)
         }
     }
 

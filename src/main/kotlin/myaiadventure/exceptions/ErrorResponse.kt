@@ -1,4 +1,4 @@
-package com.example.myaiadventure.exeptions
+package com.example.myaiadventure.exceptions
 
 import kotlinx.serialization.Serializable
 
