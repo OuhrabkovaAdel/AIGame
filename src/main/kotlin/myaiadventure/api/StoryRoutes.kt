@@ -27,20 +27,20 @@ fun Route.storyRoutes(
         )
 }
 
-      /*  get("/{storyId}") {
-            val storyId = call.parameters["storyId"]?:return@get call.respond(HttpStatusCode.BadRequest, "storyId is required")
-
-            val story = storyService.getStory(storyId)
-
-            if (story == null) {
-                return@get call.respond(
-                    HttpStatusCode.NotFound,
-                    "story is required"
+       get("/{storyId}") {
+            val storyId = call.parameters["storyId"]
+                ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Missing storyId"
                 )
-            }
-            call.respond(story)
-        }
+            val response = storyService.getStory(storyId)
 
+            call.respond(
+                HttpStatusCode.OK,
+                response
+            )
+        }
+ /*
         post("/{storyId}/actions") {
 
             val storyId = call.parameters["storyId"]

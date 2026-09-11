@@ -1,22 +1,17 @@
-package myaiadventure.domain
+package com.example.myaiadventure.api
 
-import com.example.myaiadventure.domain.Rules
 import com.example.myaiadventure.enums.Genre
 import com.example.myaiadventure.enums.MaturityLevel
-import com.example.myaiadventure.enums.StoryFocus
 import com.example.myaiadventure.enums.WritingStyle
-import java.util.UUID
+import kotlinx.serialization.Serializable
 
-
-data class Story(
-    val id: UUID,
+@Serializable
+data class GetStoryResponse(
+    val id: String,
     val title: String,
     val genres: List<Genre>,
     val tags: List<String>,
     val maturityLevel: MaturityLevel,
     val writingStyles: List<WritingStyle>,
-    val worldSetting: String,
-    val storyPremise: String,
-    val focus: List<StoryFocus>,
-    val narrativeRules: Rules
+    val generalSetting: String
 )

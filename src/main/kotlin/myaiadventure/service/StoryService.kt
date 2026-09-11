@@ -1,7 +1,10 @@
 package myaiadventure.service
 
+import com.example.myaiadventure.api.CreateRulesRequest
 import com.example.myaiadventure.api.CreateStoryRequest
 import com.example.myaiadventure.api.CreateStoryResponse
+import com.example.myaiadventure.api.GetStoryResponse
+import com.example.myaiadventure.domain.Rules
 import com.example.myaiadventure.domain.StoryState
 import com.example.myaiadventure.domain.WorldState
 import com.example.myaiadventure.enums.ErrorCodes
@@ -9,6 +12,7 @@ import com.example.myaiadventure.exceptions.ApplicationException
 import com.example.myaiadventure.service.AiService
 import myaiadventure.domain.Story
 import java.util.UUID
+import kotlin.String
 
 class StoryService(
     private val aiService: AiService
@@ -26,7 +30,16 @@ class StoryService(
             tags = createStoryRequest.tags,
             maturityLevel = createStoryRequest.maturityLevel,
             writingStyles = createStoryRequest.writingStyles,
-            generalSetting = createStoryRequest.generalSetting
+            worldSetting = createStoryRequest.worldSetting,
+            storyPremise = createStoryRequest.storyPremise,
+            focus = createStoryRequest.focus,
+            narrativeRules = Rules(
+                storyProgression = createStoryRequest.rules.storyProgression,
+                playerAgency = createStoryRequest.rules.playerAgency,
+                consequenceSeverity = createStoryRequest.rules.consequenceSeverity,
+                plausibility = createStoryRequest.rules.plausibility,
+                creativity = createStoryRequest.rules.creativity
+            )
         )
         val worldState = WorldState(
             characters = emptyList(),
@@ -54,39 +67,64 @@ class StoryService(
         if (createStoryRequest.title.isBlank()) {
             throw ApplicationException("Title cannot be empty", ErrorCodes.INVALID_REQUEST)
         }
-        if (createStoryRequest.generalSetting.isBlank()) {
-            throw ApplicationException("General setting cannot be empty", ErrorCodes.INVALID_REQUEST)
+        if (createStoryRequest.worldSetting.isBlank()) {
+            throw ApplicationException("World setting cannot be empty", ErrorCodes.INVALID_REQUEST)
+        }
+        if (createStoryRequest.focus.isEmpty()) {
+            throw ApplicationException("Focus list cannot be empty", ErrorCodes.INVALID_REQUEST)
+        }
+        if (createStoryRequest.focus.size > 3) {
+            throw ApplicationException("Focus list cannot exceed 3 items", ErrorCodes.INVALID_REQUEST)
+        }
+        if (createStoryRequest.storyPremise.isBlank()) {
+            throw ApplicationException("Story premise cannot be empty", ErrorCodes.INVALID_REQUEST)
         }
     }
 
-    /* fun processAction(
+     fun getStory(
          storyId: String,
-         action: String
-     ): StoryTurn {
+     ): GetStoryResponse {
 
-         val state = stories[storyId]?: throw IllegalArgumentException("Story $storyId not found")
+         val storyUuid = try {
+             UUID.fromString(storyId)
+         } catch (e: IllegalArgumentException) {
+             throw ApplicationException("Invalid storyId format", ErrorCodes.INVALID_REQUEST)
+         }
 
-         val AITextResponce = aiService.generateStory(
-             AiStoryRequest(
-                 storyText = state.story.text,
-                 history = state.turns.map { it.text },
-                 action = action
+         val storyState = stories[storyUuid]
+             ?: throw ApplicationException(
+                 "Story $storyId not found",
+                 ErrorCodes.STORY_NOT_FOUND
              )
-         )
+         val story = storyState.story
 
-         val turn = StoryTurn(
-             storyId = storyId,
-             action = action,
-             text = AITextResponce
+         return GetStoryResponse(
+             id = story.id.toString(),
+             title = story.title,
+             genres = story.genres,
+             tags = story.tags,
+             maturityLevel = story.maturityLevel,
+             writingStyles = story.writingStyles,
+             generalSetting = story.worldSetting
          )
+     }
+}
+/*
+val AITextResponce = aiService.generateStory(
+    AiStoryRequest(
+        storyText = state.story.text,
+        history = state.turns.map { it.text },
+        action = action
+    )
+)
 
+val turn = StoryTurn(
+    storyId = storyId,
+    action = action,
+    text = AITextResponce
+)
          stories[storyId] = state.copy(
              turns = state.turns + turn
          )
-         return turn
-     }
 
-     fun getStory(storyId: String): StoryState? {
-         return stories[storyId]
-     }*/
-}
+*/
