@@ -1,10 +1,8 @@
 package myaiadventure.service
 
-import com.example.myaiadventure.api.CreateRulesRequest
 import com.example.myaiadventure.api.CreateStoryRequest
 import com.example.myaiadventure.api.CreateStoryResponse
 import com.example.myaiadventure.api.GetStoryResponse
-import com.example.myaiadventure.domain.Rules
 import com.example.myaiadventure.domain.StoryState
 import com.example.myaiadventure.domain.WorldState
 import com.example.myaiadventure.enums.ErrorCodes
@@ -33,13 +31,7 @@ class StoryService(
             worldSetting = createStoryRequest.worldSetting,
             storyPremise = createStoryRequest.storyPremise,
             focus = createStoryRequest.focus,
-            narrativeRules = Rules(
-                storyProgression = createStoryRequest.rules.storyProgression,
-                playerAgency = createStoryRequest.rules.playerAgency,
-                consequenceSeverity = createStoryRequest.rules.consequenceSeverity,
-                plausibility = createStoryRequest.rules.plausibility,
-                creativity = createStoryRequest.rules.creativity
-            )
+            narrativeRules = createStoryRequest.rules
         )
         val worldState = WorldState(
             characters = emptyList(),

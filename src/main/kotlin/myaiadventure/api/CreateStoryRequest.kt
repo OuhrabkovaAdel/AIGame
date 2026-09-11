@@ -17,5 +17,5 @@ data class CreateStoryRequest(
     val worldSetting: String,
     val storyPremise: String,
     val focus: List<StoryFocus>,
-    val rules: CreateRulesRequest
+    val rules: Rules
 )
