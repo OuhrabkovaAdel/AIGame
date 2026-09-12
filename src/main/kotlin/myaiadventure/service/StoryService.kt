@@ -97,7 +97,11 @@ class StoryService(
              tags = story.tags,
              maturityLevel = story.maturityLevel,
              writingStyles = story.writingStyles,
-             generalSetting = story.worldSetting
+             worldSetting = story.worldSetting,
+             storyPremise = story.storyPremise,
+             focus = story.focus,
+             rules = story.narrativeRules
+
          )
      }
 }

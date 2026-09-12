@@ -1,0 +1,80 @@
+{
+  "title": "AI Story Response",
+  "type": "object",
+  "required": [
+    "narration",
+    "changes"
+  ],
+  "properties": {
+    "narration": {
+      "type": "string"
+    },
+
+    "changes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stateChange"
+      }
+    }
+  },
+
+  "$defs": {
+    "stateChange": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "CREATE_CHARACTER"
+          ]
+        },
+
+        "if": {
+          "properties": {
+            "type": {
+              "const": "CREATE_CHARACTER"
+            }
+          }
+        },
+
+        "then": {
+          "required": [
+            "character"
+          ]
+        },
+
+        "character": {
+          "$ref": "#/$defs/character"
+        }
+      },
+
+      "additionalProperties": false
+    },
+
+    "character": {
+      "type": "object",
+      "required": [
+        "name",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+
+      "additionalProperties": false
+    }
+  },
+
+  "additionalProperties": false
+}
